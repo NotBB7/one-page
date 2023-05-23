@@ -1,26 +1,46 @@
-  function createGallery(numImages) {
-    var galleryContainer = document.querySelector('.gallery-container');
-  
-    for (var i = 0; i < numImages; i++) {
-      var imageContainer = document.createElement('div');
-      imageContainer.className = 'image-container';
-  
-      var randomId = Math.floor(Math.random() * 200); // Générer un ID aléatoire pour chaque image
-  
-      var imageLink = document.createElement('a');
-      imageLink.setAttribute('href', 'https://picsum.photos/id/' + randomId + '/800/600'); // Utilisez la source d'images de Picsum ici
-      imageLink.setAttribute('data-lightbox', 'gallery');
-  
-      var image = document.createElement('img');
-      image.src = 'https://picsum.photos/id/' + randomId + '/200';
-      image.alt = 'Image ' + (i + 1);
-  
-      imageLink.appendChild(image);
-      imageContainer.appendChild(imageLink);
-      galleryContainer.appendChild(imageContainer);
+$(document).ready(function() {
+  var galleryContainer = $('.gallery-container');
+  var loadedImages = 8;
+  var imagesPerPage = 20;
+
+  // Fonction pour charger des images supplémentaires
+  function loadMoreImages() {
+    for (var i = 0; i < imagesPerPage; i++) {
+      var randomId = Math.floor(Math.random() * 1000);
+
+      var imageLink = $('<a>', {
+        href: 'https://picsum.photos/id/' + randomId + '/800/600',
+        'data-lightbox': 'gallery',
+        'data-title': 'Image ' + (loadedImages + i + 1)
+      });
+
+      var image = $('<img>', {
+        src: 'https://picsum.photos/id/' + randomId + '/200',
+        alt: 'Image ' + (loadedImages + i + 1)
+      });
+
+      imageLink.append(image);
+      galleryContainer.append(imageLink);
     }
-  
-    lightbox.init(); // Initialisation de Lightbox2
+
+    loadedImages += imagesPerPage;
   }
-  
-  createGallery(12); // Appel de la fonction avec le nombre d'images souhaité
+
+  // Chargement initial des images
+  loadMoreImages();
+
+  // Fonction pour vérifier si l'utilisateur a atteint le bas de la page
+  function checkScroll() {
+    var windowHeight = $(window).height();
+    var documentHeight = $(document).height();
+    var scrollTop = $(window).scrollTop();
+
+    if (scrollTop >= documentHeight - windowHeight) {
+      loadMoreImages();
+    }
+  }
+
+  // Événement de scroll
+  $(window).scroll(checkScroll);
+});
+

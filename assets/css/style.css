@@ -25,23 +25,25 @@ header {
   z-index: -1;
 }
 
- /* Styles CSS pour la galerie */
- .gallery-container {
+/* Styles spécifiques à la galerie */
+.gallery-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 120px; /* Espace entre l'en-tête et la galerie */
+  align-items: center;
+  margin-top: 120px;
 }
 
-.image-container {
-  width: 25%; /* Pour afficher jusqu'à 4 images par ligne */
-  padding: 5px;
-  box-sizing: border-box;
+.gallery-container a {
+  display: inline-block;
+  margin-left: 10px;
+  width: calc(25% - 10px); /* 4 images par ligne */
   text-align: center;
 }
 
-.image-container img {
-  width: 50%;
+.gallery-container img {
+  max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  display: block;
 }
+
